@@ -738,7 +738,7 @@
 						debugLog("Loading patient data");
 	
 						// Patient
-							GC.get_data().then(
+							GC.get_data().done(
 							function(data) {
 								//console.log(boneAge);
 								GC.currentPatient = PATIENT = new GC.Patient(
@@ -751,6 +751,18 @@
 								);
 								GC.translateFentonDatasets(PATIENT);
 								done();
+							}).fail(function(response){
+								var msg = response.responseText;
+								console.log("Failed.");
+								$("#loading-indicator h2").html(msg); 
+								if (response.status === 404) {
+									$("#loading-indicator h2").append($("<button>Make me a fake one!</button>"));
+									$("#loading-indicator button").click(function(){
+										$.get("/my/ccda/fixture").success(function(){
+											window.location.href = window.location.href;
+										});
+									});
+								}
 							});
 		}
 

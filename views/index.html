@@ -5,58 +5,12 @@
     <title>Growth-tastic!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Le styles -->
     <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <style type="text/css">
-      body {
-        padding-top: 20px;
-        padding-bottom: 40px;
-      }
-
-      /* Custom container */
-      .container-narrow {
-        margin: 0 auto;
-        max-width: 700px;
-      }
-      .container-narrow > hr {
-        margin: 30px 0;
-      }
-
-      /* Main marketing message and sign up button */
-      .jumbotron {
-        margin: 60px 0;
-        text-align: center;
-      }
-      .jumbotron h1 {
-        font-size: 72px;
-        line-height: 1;
-      }
-      .jumbotron .btn {
-        font-size: 21px;
-        padding: 14px 24px;
-      }
-
-      /* Supporting marketing content */
-      .marketing {
-        margin: 60px 0;
-      }
-      .marketing p + h4 {
-        margin-top: 28px;
-      }
-    </style>
     <link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/static/assets/stylesheet.css" rel="stylesheet">
 
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="/static/bootstrap/js/html5shiv.js"></script>
-    <![endif]-->
+    <script src="/static/growth_charts/lib/jquery.js"></script>
 
-    <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/bootstrap/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/bootstrap/ico/apple-touch-icon-114-precomposed.png">
-      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/bootstrap/ico/apple-touch-icon-72-precomposed.png">
-                    <link rel="apple-touch-icon-precomposed" href="/static/bootstrap/ico/apple-touch-icon-57-precomposed.png">
-                                   <link rel="shortcut icon" href="/static/bootstrap/ico/favicon.png">
   </head>
 
   <body>
@@ -64,8 +18,13 @@
     <div class="container-narrow">
 
       <div class="masthead">
-        <h3 class="muted">BlueButton+ Tutorial App
-          <div class="pull-right">
+        <select id="choose-step" style=" margin-bottom: 0px; width: 100%; ">
+          <option value="http://growth-fixture.bluebuttonpl.us">Fixture: Data hard-coded in the app</option>
+          <option value="http://growth.bluebuttonpl.us">BB+ Push: Data retrieved via Direct messaging</option>
+          <option value="http://growth-pull.bluebuttonpl.us">BB+ Pull: Data retrieved via OAuth2 + REST</option>
+        </select>
+
+        <div class="pull-right sign-in">
           <% if (user){ %>
           <a class="btn" href="/signout">Sign out @<%=user%></a>
           <% } else { %>
@@ -75,41 +34,47 @@
           <% }%>
         </div>
 
-        </h3>
+        <div class="jumbotron">
 
-     </div>
 
-      <hr>
-
-      <div class="jumbotron">
-        <h1>Growth-tastic!</h1>
-        <p class="lead">Plot your growth against standard curves from CDC, WHO, and more!</p>
-      </div>
-
-      <hr>
-      <div class="row-fluid marketing">
-        <div class="span6">
-          <h4>1. Use the Blue Button!</h4>
-          <p>Sign in to your healthcare provider's portal</p>
-
-          <h4>2. Link up to your Direct Email Address</h4>
-          <p>Send your BlueButton data to:<code>
-            <%= user? user : "your-twitter-handle"%>@direct.growth.bluebuttonpl.us
-          </code></p>
-
-          <h4>3. Feast your eyes on Growth-tastic</h4>
-          <% if (user) { %>
-          <a target="_new" href="/static/growth_charts/index.html" class="btn btn-info">Chart-ho!</a>
-          <% } else { %>
-          <a target="_new" class="btn btn-info btn-disabled" disabled>Please sign in above...</a>
-          <% } %>
+          <h1>Growth-tastic!</h1>
+          <p class="lead">BlueButton+ Tutorial in 3 Steps:
+          <a href="https://github.com/jmandel/bb-tutorial-growthtastic/wiki">
+            see write-up.</a>
+          </p>
         </div>
+
+        <hr>
+
+        <div class="row-fluid marketing">
+          <div class="span12">
+            <h4>Here's some hard-coded growth chart data for you!</h4>
+            <a target="_new" href="/static/growth_charts/index.html" class="btn btn-info">Chart-ho!</a>
+          </div>
+        </div>
+
+
       </div>
+
+      <script>
+        var o = window.location.origin;
+        if (o.match(/growth-pull/)){
+          $("option[value='http://growth-pull.bluebuttonpl.us']").attr("selected", true);
+          } else if (o.match(/growth-fixture/)){
+          $("option[value='http://growth-fixture.bluebuttonpl.us']").attr("selected", true);
+          } else {
+          $("option[value='http://growth.bluebuttonpl.us']").attr("selected", true);
+        }
+        $("#choose-step").change(function(c){
+          window.location = $("#choose-step").val();
+        });
+      </script>
 
       <hr>
 
       <div class="footer">
-        <p>&copy; Harvard Medical School / Boston Children's Hospital 2013</p>
+        <p>&copy; <a href="http://smartplatforms.org">SMART Platforms</a>,
+        Harvard Medical School / Boston Children's Hospital 2013</p>
       </div>
 
     </div> <!-- /container -->
