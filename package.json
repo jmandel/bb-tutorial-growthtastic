@@ -1,0 +1,24 @@
+{
+  "name": "growth-tastic",
+  "version": "0.0.1",
+  "description": "Visualizes height, weight,and BMI in a pediatric growth chart. (Open-source tutorial app for BlueButton+ access to patient data.)",
+  "author": "Josh Mandel <joshua.mandel@childrens.harvard.edu>",
+  "scripts":{
+   "start": "node ./launch.js"
+  },
+  "dependencies": {
+    "mkdirp": "*",
+    "bson": "*",
+    "connect-powered-by": "*",
+    "async": "*",
+    "express": "*",
+    "ejs": "*",
+    "mongodb": "*",
+    "optimist":"*",
+    "passport":"*",
+    "passport-twitter":"*"
+  },
+  "devDependencies": {
+  },
+  "engine": "node >= 0.6.0"
+}
