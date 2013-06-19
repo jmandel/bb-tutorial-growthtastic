@@ -46,14 +46,6 @@
 
         <hr>
 
-        <div class="row-fluid marketing">
-          <div class="span12">
-            <h4>Here's some hard-coded growth chart data for you!</h4>
-            <a target="_new" href="/static/growth_charts/index.html" class="btn btn-info">Chart-ho!</a>
-          </div>
-        </div>
-
-
       </div>
 
       <script>
@@ -69,6 +61,25 @@
           window.location = $("#choose-step").val();
         });
       </script>
+
+      <div class="row-fluid marketing">
+        <div class="span12">
+          <h4>1. Find your Blue Button!</h4>
+          <p>Sign in to your healthcare provider's portal and find the Blue Button</p>
+
+          <h4>2. Connect your data to Growth-tastic</h4>
+          <p>Have your provider automatically send your BlueButton data to:<code>
+            <%= user? user : "your-twitter-handle"%>@direct.growth.bluebuttonpl.us
+          </code></p>
+
+          <h4>3. Feast your eyes on Growth-tastic</h4>
+          <% if (user) { %>
+          <a target="_new" href="/static/growth_charts/index.html" class="btn btn-info">Chart-ho!</a>
+          <% } else { %>
+          <a target="_new" class="btn btn-info btn-disabled" disabled>Please sign in above...</a>
+          <% } %>
+        </div>
+      </div>
 
       <hr>
 
