@@ -3,11 +3,7 @@ window.GC = window.GC || {};
 GC.get_data = function() {
   var dfd = $.Deferred();
 
-  $.ajax({
-    url: '/my/ccda/summary',
-    type: 'get',
-    dataType: 'text'
-  })
+  BBClient.summary()
   .fail(fail)
   .success(extractVitals);
 
