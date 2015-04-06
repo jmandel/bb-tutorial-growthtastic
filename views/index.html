@@ -10,7 +10,7 @@
     <link href="/static/assets/stylesheet.css" rel="stylesheet">
 
     <script src="/static/growth_charts/lib/jquery.js"></script>
-
+    <script src="/static/growth_charts/bb/bluebutton-pull-client.js"></script>
   </head>
 
   <body>
@@ -64,22 +64,47 @@
 
       <div class="row-fluid marketing">
         <div class="span12">
-          <h4>1. Find your Blue Button!</h4>
-          <p>Sign in to your healthcare provider's portal and find the Blue Button</p>
 
-          <h4>2. Connect your data to Growth-tastic</h4>
-          <p>Have your provider automatically send your BlueButton data to:<code>
-            <%= user? user : "your-twitter-handle"%>@direct.growth.bluebuttonpl.us
-          </code></p>
+        <form>
+          <h4>Connect Growth-tastic to your your health record</h4>
+          <ul type='text' id='provider-select'></ul><br><br>
+          (<strong>Good Health Clinic</strong> demo account: username <code>demo</code>, password <code>demo</code>.)
+        </form>
+      <script>
 
-          <h4>3. Feast your eyes on Growth-tastic</h4>
-          <% if (user) { %>
-          <a target="_new" href="/static/growth_charts/index.html" class="btn btn-info">Chart-ho!</a>
-          <% } else { %>
-          <a target="_new" class="btn btn-info btn-disabled" disabled>Please sign in above...</a>
-          <% } %>
-        </div>
-      </div>
+        var client = {
+          "client_name": "Growth-tastic",
+          "client_uri": "http://growth.bluebuttonpl.us",
+          "logo_uri": "http://growth.bluebuttonpl.us/static/growth_charts/img/icon.png",
+          "contacts": [ "info@growth.bluebuttonpl.us" ],
+          "redirect_uris": [ "http://growth-pull.bluebuttonpl.us/static/growth_charts/" ],
+          "response_types": ["token"],
+          "grant_types": ["implicit"],
+          "token_endpoint_auth_method": "none",
+          "scope":  "summary"
+        };
+
+        var registries = ["https://pilots.fhir.me"];
+
+        BBClient.providers(registries, function(providers){
+          $.each(providers, function(i,v){
+            $('#provider-select').append(
+            $("<li><a href='"+v.oauth2.authorize_uri+"'> "+v.name+"</a>" + 
+            "<em> "+v.description+"</em></li>").click(choose(v)));
+          });
+        });
+
+        function choose(p){
+          return function(event){
+            event.preventDefault();
+            BBClient.authorize({
+              client: client,
+              provider:p
+            });
+          };
+        };
+
+      </script>
 
       <hr>
 
